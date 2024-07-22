@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface TimerProps {
   isActive: boolean;
-  onFinish: () => void;
+  onFinish: (finalTime: number) => void; // Pass final time to the onFinish callback
 }
 
 const Timer: React.FC<TimerProps> = ({ isActive, onFinish }) => {
@@ -14,13 +14,17 @@ const Timer: React.FC<TimerProps> = ({ isActive, onFinish }) => {
   useEffect(() => {
     if (isActive) {
       intervalRef.current = window.setInterval(() => {
-        setTime((prev) => prev + 1);
+        setTime(prev => prev + 1);
       }, 1000);
-    } else if (!isActive && time !== 0) {
+    } else {
       if (intervalRef.current !== null) {
         window.clearInterval(intervalRef.current);
+        intervalRef.current = null;
       }
-      onFinish();
+      // Pass the final time when the timer stops
+      if (time > 0) {
+        onFinish(time);
+      }
     }
 
     // Cleanup interval on component unmount or when isActive changes
@@ -38,8 +42,10 @@ const Timer: React.FC<TimerProps> = ({ isActive, onFinish }) => {
   };
 
   return (
-    
-      <><FontAwesomeIcon icon={faClock} className='text-lg leading-lg opacity-75 mr-2' /> {formatTime(time)}</>
+    <div className="flex items-center">
+      <FontAwesomeIcon icon={faClock} className="text-lg leading-lg opacity-75 mr-2" />
+      <span>{formatTime(time)}</span>
+    </div>
   );
 };
 

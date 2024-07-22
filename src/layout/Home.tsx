@@ -20,7 +20,8 @@ const Home: React.FC<{}> = () => {
   const [isTimerActive, setIsTimerActive] = useState(false);
   const [instructionsCollapsed, setInstructionsCollapsed] = useState(false);
   const [puzzleData, setPuzzleData] = useState<PuzzleData | null>(null);
-  const [isMuted, setIsMuted] = useState(false); // Mute state
+  const [isMuted, setIsMuted] = useState(false);
+  const [finalTime, setFinalTime] = useState<number | null>(null); 
 
   useEffect(() => {
     fetchPuzzle();
@@ -79,10 +80,13 @@ const Home: React.FC<{}> = () => {
     setInstructionsCollapsed(true);
   };
 
-  const handleTimerFinish = () => {
-    // Logic for when the timer finishes, e.g., show a message or end the game
-    console.log("Timer has finished!");
+
+  const handleTimerFinish = (time: number) => {
+    console.log("Timer has finished! Final Time:", time);
+    setIsTimerActive(false);
+    setFinalTime(time);
   };
+ 
 
   if (!puzzleData) return <LoadingGrid />;
 
@@ -98,7 +102,7 @@ const Home: React.FC<{}> = () => {
               onMuteToggle={handleMuteToggle}
             />
             <div className="w-full max-w-4xl mt-4">
-              <Grid puzzleData={puzzleData} />
+              <Grid puzzleData={puzzleData} isMuted={isMuted} />
             </div>
             <GridFooter onClear={handleClear} onNewGame={handleNewGame} />
           </>

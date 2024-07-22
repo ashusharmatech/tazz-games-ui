@@ -6,23 +6,28 @@ interface CellProps {
   value: string;
   highlight: boolean;
   onClick: () => void;
+  isMuted: string;
 }
 
-const Cell: React.FC<CellProps> = React.memo(({ color, value, highlight, onClick }) => {
+const Cell: React.FC<CellProps> = React.memo(({ color, value, highlight, onClick , isMuted}) => {
   // Create a ref to hold the current audio instance
   const tapAudioRef = useRef<HTMLAudioElement | null>(null);
 
   const handleClick = () => {
-    // Stop the currently playing audio, if any
-    if (tapAudioRef.current) {
-      tapAudioRef.current.pause();
-      tapAudioRef.current.currentTime = 0; // Reset the audio to the beginning
-    }
 
-    // Create a new audio instance and play it
-    const tapAudio = new Audio(tap);
-    tapAudioRef.current = tapAudio;
-    tapAudio.play();
+    if(!isMuted){
+      // Stop the currently playing audio, if any
+      if (tapAudioRef.current) {
+        tapAudioRef.current.pause();
+        tapAudioRef.current.currentTime = 0; // Reset the audio to the beginning
+      }
+
+      // Create a new audio instance and play it
+      const tapAudio = new Audio(tap);
+      tapAudioRef.current = tapAudio;
+      tapAudio.play();
+    }
+    
     
     // Trigger device vibration if the Vibration API is supported
     if ("vibrate" in navigator) {

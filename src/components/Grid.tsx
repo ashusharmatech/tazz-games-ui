@@ -14,9 +14,10 @@ interface PuzzleData {
 
 interface GridProps {
   puzzleData: PuzzleData;
+  isMuted: boolean;
 }
 
-const Grid: React.FC<GridProps> = ({ puzzleData }) => {
+const Grid: React.FC<GridProps> = ({ puzzleData, isMuted }) => {
   const [originalData, setOriginalData] = useState<PuzzleData | null>(null);
   const [regionColors, setRegionColors] = useState<{ [key: string]: string }>({});
   const [invalidCells, setInvalidCells] = useState<[number, number][]>([]);
@@ -171,6 +172,7 @@ const Grid: React.FC<GridProps> = ({ puzzleData }) => {
                   value={cell}
                   onClick={() => toggleCell(i, j)}
                   highlight={invalidCells.some(([x, y]) => x === i && y === j)}
+                  isMuted={isMuted}
                 />
               ))}
             </tr>
