@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useRef } from "react";
+import tap from "../assets/tap-notification.mp3";
 
 interface CellProps {
   color: string;
@@ -8,10 +9,29 @@ interface CellProps {
 }
 
 const Cell: React.FC<CellProps> = React.memo(({ color, value, highlight, onClick }) => {
-  // Determine font size, font weight, and text opacity based on value
-  const fontSize = value === "♕" ? "18px" : value === "X" ? "14px" : "18px";
-  const fontWeight = value === "X" ? "normal" : "bold"; // Non-bold for "X"
-  const textOpacity = value === "X" ? "0.75" : "1"; // 75% opacity for "X"
+  // Create a ref to hold the current audio instance
+  const tapAudioRef = useRef<HTMLAudioElement | null>(null);
+
+  const handleClick = () => {
+    // Stop the currently playing audio, if any
+    if (tapAudioRef.current) {
+      tapAudioRef.current.pause();
+      tapAudioRef.current.currentTime = 0; // Reset the audio to the beginning
+    }
+
+    // Create a new audio instance and play it
+    const tapAudio = new Audio(tap);
+    tapAudioRef.current = tapAudio;
+    tapAudio.play();
+    
+    // Trigger device vibration if the Vibration API is supported
+    if ("vibrate" in navigator) {
+      navigator.vibrate(50); // Vibration for 50ms
+    }
+    
+    // Call the passed onClick handler
+    onClick();
+  };
 
   return (
     <td
@@ -27,13 +47,13 @@ const Cell: React.FC<CellProps> = React.memo(({ color, value, highlight, onClick
         border: highlight ? "2px solid red" : "1px solid gray" // Highlight border for invalid cells
       }}
       className="border-r border-gray-200"
-      onClick={onClick}
+      onClick={handleClick}
     >
       <span
         style={{
-          fontSize: fontSize, // Conditional font size
-          fontWeight: fontWeight, // Conditional font weight
-          opacity: textOpacity, // Conditional text opacity
+          fontSize: value === "♕" ? "18px" : value === "X" ? "14px" : "18px", // Conditional font size
+          fontWeight: value === "X" ? "normal" : "bold", // Conditional font weight
+          opacity: value === "X" ? "0.75" : "1", // Conditional text opacity
         }}
       >
         {value}
