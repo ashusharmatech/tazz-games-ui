@@ -3,14 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faVolumeMute, faVolumeUp } from "@fortawesome/free-solid-svg-icons";
 import Timer from "./Timer";
 
-interface ControllerProps {
+interface GridHeaderProps {
   isActive: boolean;
   onFinish: () => void;
   isMuted: boolean;
   onMuteToggle: () => void; // Added to handle mute toggle
 }
 
-const Controller: React.FC<ControllerProps> = ({ isActive, onFinish, isMuted, onMuteToggle }) => {
+const GridHeader: React.FC<GridHeaderProps> = ({ isActive, onFinish, isMuted, onMuteToggle }) => {
   return (
     <div className="flex items-center justify-between p-2 shadow-md rounded bg-white">
       <div className="flex items-center">
@@ -22,10 +22,9 @@ const Controller: React.FC<ControllerProps> = ({ isActive, onFinish, isMuted, on
         aria-label="Toggle Mute"
       >
         <FontAwesomeIcon icon={isMuted ? faVolumeMute : faVolumeUp} className="text-lg" />
-        <span className="ml-2">{isMuted ? "Muted" : "Unmuted"}</span>
       </button>
     </div>
   );
 };
 
-export default Controller;
+export default GridHeader;
