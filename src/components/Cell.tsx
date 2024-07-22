@@ -3,10 +3,11 @@ import React from "react";
 interface CellProps {
   color: string;
   value: string;
+  highlight: boolean;
   onClick: () => void;
 }
 
-const Cell: React.FC<CellProps> = React.memo(({ color, value, onClick }) => {
+const Cell: React.FC<CellProps> = React.memo(({ color, value, highlight, onClick }) => {
   // Determine font size, font weight, and text opacity based on value
   const fontSize = value === "♕" ? "18px" : value === "X" ? "10px" : "18px";
   const fontWeight = value === "X" ? "normal" : "bold"; // Non-bold for "X"
@@ -23,6 +24,7 @@ const Cell: React.FC<CellProps> = React.memo(({ color, value, onClick }) => {
         textAlign: "center", // Center text horizontally
         verticalAlign: "middle", // Center text vertically
         lineHeight: "60px", // Match line height to cell height for vertical centering
+        border: highlight ? "2px solid red" : "1px solid gray" // Highlight border for invalid cells
       }}
       className="border-r border-gray-200"
       onClick={onClick}
