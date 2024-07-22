@@ -16,11 +16,6 @@ const Home: React.FC<{}> = () => {
     setInstructionsCollapsed(true); 
   };
 
-  const handlePuzzleSolved = () => {
-    setIsTimerActive(false);
-  };
-
-
   const handleToggleInstructions = () => {
     setInstructionsCollapsed(!instructionsCollapsed);
   };

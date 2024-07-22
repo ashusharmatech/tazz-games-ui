@@ -1,8 +1,13 @@
-import React from "react";
+import React from 'react';
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const PlayButton = ({ onClick }) => {
+// Define the type for the component props
+interface PlayButtonProps {
+  onClick: () => void; // Function type for onClick
+}
+
+const PlayButton: React.FC<PlayButtonProps> = ({ onClick }) => {
   return (
     <div className="flex justify-center items-center p-10">
       <div className="bg-white rounded flex justify-center items-center">

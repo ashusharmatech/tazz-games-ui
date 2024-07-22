@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { faClock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -9,18 +9,26 @@ interface TimerProps {
 
 const Timer: React.FC<TimerProps> = ({ isActive, onFinish }) => {
   const [time, setTime] = useState(0);
+  const intervalRef = useRef<number | null>(null); // Use useRef to store the interval ID
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
     if (isActive) {
-      interval = setInterval(() => {
+      intervalRef.current = window.setInterval(() => {
         setTime((prev) => prev + 1);
       }, 1000);
     } else if (!isActive && time !== 0) {
-      clearInterval(interval);
+      if (intervalRef.current !== null) {
+        window.clearInterval(intervalRef.current);
+      }
       onFinish();
     }
-    return () => clearInterval(interval);
+
+    // Cleanup interval on component unmount or when isActive changes
+    return () => {
+      if (intervalRef.current !== null) {
+        window.clearInterval(intervalRef.current);
+      }
+    };
   }, [isActive, time, onFinish]);
 
   const formatTime = (seconds: number) => {
