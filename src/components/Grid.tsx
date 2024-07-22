@@ -168,6 +168,8 @@ const Grid = () => {
     setInvalidCells(cellsToHighlight);
   };
 
+  if (!originalData) return <LoadingGrid />;
+
   return (
     <div id="puzzle-container" className="bg-white shadow-md rounded border-2 border-gray-900">
       <table className="table-auto w-full">
