@@ -33,10 +33,12 @@ const Grid: React.FC<GridProps> = ({ puzzleData }) => {
     const uniqueRegions = new Set(Object.values(data.cell_info));
     const colors = generateColors(uniqueRegions.size);
     const newRegionColors: { [key: string]: string } = {};
-    uniqueRegions.forEach((region, index) => {
-      newRegionColors[region] = colors[index];
+    const uniqueRegionsArray = Array.from(uniqueRegions);
+  
+    uniqueRegionsArray.forEach((region, idx) => {
+      newRegionColors[region] = colors[idx];
     });
-
+  
     setRegionColors(newRegionColors);
   };
 
