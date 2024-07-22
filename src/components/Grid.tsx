@@ -15,18 +15,21 @@ interface PuzzleData {
 interface GridProps {
   puzzleData: PuzzleData;
   isMuted: boolean;
+  onSolutionValid: (time: number) => void;
 }
 
-const Grid: React.FC<GridProps> = ({ puzzleData, isMuted }) => {
+const Grid: React.FC<GridProps> = ({ puzzleData, isMuted, onSolutionValid }) => {
   const [originalData, setOriginalData] = useState<PuzzleData | null>(null);
   const [regionColors, setRegionColors] = useState<{ [key: string]: string }>({});
   const [invalidCells, setInvalidCells] = useState<[number, number][]>([]);
   const [isValid, setIsValid] = useState<boolean | null>(null);
+  const [startTime, setStartTime] = useState<number>(Date.now());
 
   useEffect(() => {
     if (puzzleData) {
       setOriginalData(puzzleData);
       displayPuzzle(puzzleData);
+      setStartTime(Date.now()); // Set the start time when the puzzle is loaded
     }
   }, [puzzleData]);
 
@@ -35,11 +38,11 @@ const Grid: React.FC<GridProps> = ({ puzzleData, isMuted }) => {
     const colors = generateColors(uniqueRegions.size);
     const newRegionColors: { [key: string]: string } = {};
     const uniqueRegionsArray = Array.from(uniqueRegions);
-  
+
     uniqueRegionsArray.forEach((region, idx) => {
       newRegionColors[region] = colors[idx];
     });
-  
+
     setRegionColors(newRegionColors);
   };
 
@@ -155,6 +158,11 @@ const Grid: React.FC<GridProps> = ({ puzzleData, isMuted }) => {
     const isValid = allOsPlaced && cellsToHighlight.length === 0;
     setIsValid(isValid);
     setInvalidCells(cellsToHighlight);
+
+    if (isValid) {
+      const finishTime = (Date.now() - startTime) / 1000; // Calculate the time taken in seconds
+      onSolutionValid(finishTime); // Notify the parent component
+    }
   };
 
   if (!originalData) return <LoadingGrid />;
@@ -178,10 +186,7 @@ const Grid: React.FC<GridProps> = ({ puzzleData, isMuted }) => {
             </tr>
           ))}
         </tbody>
-      </table>
-      <div id="validation-label" style={{ color: isValid === null ? 'black' : isValid ? 'green' : 'red' }}>
-        {isValid === null ? '' : isValid ? 'Success! Your solution is valid.' : 'Error: Your solution is invalid.'}
-      </div>
+      </table>      
     </div>
   );
 };

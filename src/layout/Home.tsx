@@ -21,7 +21,7 @@ const Home: React.FC<{}> = () => {
   const [instructionsCollapsed, setInstructionsCollapsed] = useState(false);
   const [puzzleData, setPuzzleData] = useState<PuzzleData | null>(null);
   const [isMuted, setIsMuted] = useState(false);
-  const [finalTime, setFinalTime] = useState<number | null>(null); 
+  const [finalTime, setFinalTime] = useState<number | null>(null);
 
   useEffect(() => {
     fetchPuzzle();
@@ -42,8 +42,6 @@ const Home: React.FC<{}> = () => {
         .fill(null)
         .map(() => Array(size).fill(""));
       setPuzzleData({ ...data, puzzle: initialPuzzle }); // Use the initial empty cells
-      // Start the timer when puzzle data is set
-      setIsTimerActive(true);
     } catch (error) {
       console.error("Error fetching puzzle:", error);
     }
@@ -51,6 +49,7 @@ const Home: React.FC<{}> = () => {
 
   const handlePlayClick = () => {
     setHasStarted(true);
+    setIsTimerActive(true); // Start the timer
     setInstructionsCollapsed(true);
   };
 
@@ -80,13 +79,16 @@ const Home: React.FC<{}> = () => {
     setInstructionsCollapsed(true);
   };
 
+  const handleSolutionValid = (time: number) => {
+    setIsTimerActive(false); // Stop the timer when solution is valid
+    setFinalTime(time); // Set the final time when the solution is valid
+  };
 
   const handleTimerFinish = (time: number) => {
     console.log("Timer has finished! Final Time:", time);
     setIsTimerActive(false);
     setFinalTime(time);
   };
- 
 
   if (!puzzleData) return <LoadingGrid />;
 
@@ -102,7 +104,11 @@ const Home: React.FC<{}> = () => {
               onMuteToggle={handleMuteToggle}
             />
             <div className="w-full max-w-4xl mt-4">
-              <Grid puzzleData={puzzleData} isMuted={isMuted} />
+              <Grid
+                puzzleData={puzzleData}
+                isMuted={isMuted}
+                onSolutionValid={handleSolutionValid} // Pass the onSolutionValid prop
+              />
             </div>
             <GridFooter onClear={handleClear} onNewGame={handleNewGame} />
           </>
@@ -114,6 +120,7 @@ const Home: React.FC<{}> = () => {
         collapsed={instructionsCollapsed}
         onToggle={handleToggleInstructions}
       />
+      {finalTime !== null && <div>Final Time: {finalTime} seconds</div>}
     </div>
   );
 };
