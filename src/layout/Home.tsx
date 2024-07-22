@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import Grid from "../components/Grid";
 import Instructions from "../components/Instructions";
 import PlayButton from "../components/PlayButton";
-import Timer from "../components/Timer";
 import LoadingGrid from "../components/LoadingGrid";
+import Controller from "../components/Controller";
 
 interface CellInfo {
   [key: string]: string;
@@ -62,8 +62,8 @@ const Home: React.FC<{}> = () => {
     <div className="flex flex-col items-center p-4">
       <div className="mb-4">
         {hasStarted ? (
-          <>
-            <Timer isActive={isTimerActive} onFinish={() => {}} />
+          <> 
+            <Controller isActive={isTimerActive} onFinish={() => {}} isMuted={false} onMuteToggle={() => {}}/>
             <div className="w-full max-w-4xl mt-4">
               <Grid puzzleData={puzzleData} />
             </div>

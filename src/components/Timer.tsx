@@ -38,9 +38,8 @@ const Timer: React.FC<TimerProps> = ({ isActive, onFinish }) => {
   };
 
   return (
-    <div className="top-0 left-0 text-xl p-2 shadow-md rounded">
-      <FontAwesomeIcon icon={faClock} className='text-lg leading-lg opacity-75 mr-2' /> {formatTime(time)}
-    </div>
+    
+      <><FontAwesomeIcon icon={faClock} className='text-lg leading-lg opacity-75 mr-2' /> {formatTime(time)}</>
   );
 };
 
