@@ -32,21 +32,23 @@ const Home: React.FC<{}> = () => {
       return;
     }
     console.log(apiUrl);
-    fetch(`${apiUrl}/generate_puzzle?size=${size}`)
-      .then((response) => response.json())
-      .then((data: PuzzleData) => {
-        // Initialize puzzle data with empty cells
-        const initialPuzzle = Array(size)
-          .fill(null)
-          .map(() => Array(size).fill(''));
-        setPuzzleData({ ...data, puzzle: initialPuzzle }); // Use the initial empty cells
-      })
-      .catch((error) => console.error("Error fetching puzzle:", error));
+    try {
+      const response = await fetch(`${apiUrl}/generate_puzzle?size=${size}`);
+      const data: PuzzleData = await response.json();
+      // Initialize puzzle data with empty cells
+      const initialPuzzle = Array(size)
+        .fill(null)
+        .map(() => Array(size).fill(''));
+      setPuzzleData({ ...data, puzzle: initialPuzzle }); // Use the initial empty cells
+      // Start the timer when puzzle data is set
+      setIsTimerActive(true);
+    } catch (error) {
+      console.error("Error fetching puzzle:", error);
+    }
   };
 
   const handlePlayClick = () => {
     setHasStarted(true);
-    setIsTimerActive(true);
     setInstructionsCollapsed(true); 
   };
 
