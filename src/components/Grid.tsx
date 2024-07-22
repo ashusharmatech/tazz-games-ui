@@ -12,36 +12,22 @@ interface PuzzleData {
   cell_info: CellInfo;
 }
 
-const Grid = () => {
+interface GridProps {
+  puzzleData: PuzzleData;
+}
+
+const Grid: React.FC<GridProps> = ({ puzzleData }) => {
   const [originalData, setOriginalData] = useState<PuzzleData | null>(null);
   const [regionColors, setRegionColors] = useState<{ [key: string]: string }>({});
   const [invalidCells, setInvalidCells] = useState<[number, number][]>([]);
   const [isValid, setIsValid] = useState<boolean | null>(null);
 
   useEffect(() => {
-    fetchPuzzle();
-  }, []);
-
-  const fetchPuzzle = async () => {
-    const size = 8; // Change this as needed
-    if (!originalData) {
-      const apiUrl = import.meta.env.VITE_API_URL;
-      if (!apiUrl) {
-        console.error("API URL environment variable is not set.");
-        return;
-      }
-      console.log(apiUrl);
-      fetch(`${apiUrl}/generate_puzzle?size=${size}`)
-        .then((response) => response.json())
-        .then((data: PuzzleData) => {
-          // Initialize puzzle data with empty cells
-          const initialPuzzle = Array(size).fill(null).map(() => Array(size).fill(''));
-          setOriginalData({ ...data, puzzle: initialPuzzle }); // Use the initial empty cells
-          displayPuzzle(data); // Display the puzzle
-        })
-        .catch((error) => console.error("Error fetching puzzle:", error));
+    if (puzzleData) {
+      setOriginalData(puzzleData);
+      displayPuzzle(puzzleData);
     }
-  };
+  }, [puzzleData]);
 
   const displayPuzzle = (data: PuzzleData) => {
     const uniqueRegions = new Set(Object.values(data.cell_info));
