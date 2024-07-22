@@ -6,7 +6,7 @@ interface CellProps {
   value: string;
   highlight: boolean;
   onClick: () => void;
-  isMuted: string;
+  isMuted: boolean;
 }
 
 const Cell: React.FC<CellProps> = React.memo(({ color, value, highlight, onClick , isMuted}) => {

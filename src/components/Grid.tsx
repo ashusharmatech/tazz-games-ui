@@ -22,7 +22,6 @@ const Grid: React.FC<GridProps> = ({ puzzleData, isMuted, onSolutionValid }) => 
   const [originalData, setOriginalData] = useState<PuzzleData | null>(null);
   const [regionColors, setRegionColors] = useState<{ [key: string]: string }>({});
   const [invalidCells, setInvalidCells] = useState<[number, number][]>([]);
-  const [isValid, setIsValid] = useState<boolean | null>(null);
   const [startTime, setStartTime] = useState<number>(Date.now());
 
   useEffect(() => {
@@ -156,7 +155,6 @@ const Grid: React.FC<GridProps> = ({ puzzleData, isMuted, onSolutionValid }) => 
     }
 
     const isValid = allOsPlaced && cellsToHighlight.length === 0;
-    setIsValid(isValid);
     setInvalidCells(cellsToHighlight);
 
     if (isValid) {

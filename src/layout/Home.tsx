@@ -20,7 +20,7 @@ const Home: React.FC<{}> = () => {
   const [isTimerActive, setIsTimerActive] = useState(false);
   const [instructionsCollapsed, setInstructionsCollapsed] = useState(false);
   const [puzzleData, setPuzzleData] = useState<PuzzleData | null>(null);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const [finalTime, setFinalTime] = useState<number | null>(null);
 
   useEffect(() => {
