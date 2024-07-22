@@ -25,8 +25,15 @@ const Grid = () => {
   const fetchPuzzle = async () => {
     const size = 8; // Change this as needed
     if (!originalData) {
-
-      fetch(`http://localhost:5000/generate_puzzle?size=${size}`)
+      const apiUrl = import.meta.env.VITE_API_URL; // Correct variable name
+  
+      if (!apiUrl) {
+        console.error("API URL environment variable is not set.");
+        return;
+      }
+  
+      console.log(apiUrl); // Check if the URL is correctly logged
+      fetch(`${apiUrl}/generate_puzzle?size=${size}`)
         .then((response) => response.json())
         .then((data: PuzzleData) => {
           // Initialize puzzle data with empty cells
@@ -75,7 +82,7 @@ const Grid = () => {
     setOriginalData(newData); // Update the state with the new puzzle
   };
 
-  if (!originalData) return <LoadingGrid/>;
+  if (!originalData) return <LoadingGrid />;
 
   return (
     <div
