@@ -9,7 +9,7 @@ interface CellProps {
 
 const Cell: React.FC<CellProps> = React.memo(({ color, value, highlight, onClick }) => {
   // Determine font size, font weight, and text opacity based on value
-  const fontSize = value === "♕" ? "18px" : value === "X" ? "10px" : "18px";
+  const fontSize = value === "♕" ? "18px" : value === "X" ? "14px" : "18px";
   const fontWeight = value === "X" ? "normal" : "bold"; // Non-bold for "X"
   const textOpacity = value === "X" ? "0.75" : "1"; // 75% opacity for "X"
 
