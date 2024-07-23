@@ -6,6 +6,7 @@ import LoadingGrid from "../components/LoadingGrid";
 import GridHeader from "../components/GridHeader";
 import GridFooter from "../components/GridFooter";
 import PopupMessage from "../components/PopupMessage";
+import Fireworks from "@fireworks-js/react";
 
 interface CellInfo {
   [key: string]: string;
@@ -134,7 +135,21 @@ const Home: React.FC<{}> = () => {
           <PopupMessage
             message={`Final Time: ${finalTime} seconds`}
             onClose={handlePopUpClose}
-            />          
+          />
+          <Fireworks
+            options={{
+              friction: 1,
+              mouse: { click: true, move: true },
+            }}
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              zIndex: 1,
+            }}
+          />
         </>
       )}
     </div>
