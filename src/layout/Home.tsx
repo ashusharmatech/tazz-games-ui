@@ -103,7 +103,6 @@ const Home: React.FC<{}> = () => {
 
   return (
     <div className="flex flex-col items-center p-4">
-      <p>{showPopup? "TRUE": "false"}</p>
       <div className="mb-4">
         {hasStarted ? (
           <>
