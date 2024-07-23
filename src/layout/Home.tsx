@@ -5,6 +5,7 @@ import PlayButton from "../components/PlayButton";
 import LoadingGrid from "../components/LoadingGrid";
 import GridHeader from "../components/GridHeader";
 import GridFooter from "../components/GridFooter";
+import PopupMessage from "../components/PopupMessage";
 
 interface CellInfo {
   [key: string]: string;
@@ -22,6 +23,7 @@ const Home: React.FC<{}> = () => {
   const [puzzleData, setPuzzleData] = useState<PuzzleData | null>(null);
   const [isMuted, setIsMuted] = useState(true);
   const [finalTime, setFinalTime] = useState<number | null>(null);
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     fetchPuzzle();
@@ -77,6 +79,8 @@ const Home: React.FC<{}> = () => {
     setIsTimerActive(true);
     setHasStarted(true);
     setInstructionsCollapsed(true);
+    setFinalTime(null); // Reset the final time
+    setShowPopup(false); // Show the popup
   };
 
   const handleSolutionValid = (time: number) => {
@@ -88,12 +92,18 @@ const Home: React.FC<{}> = () => {
     console.log("Timer has finished! Final Time:", time);
     setIsTimerActive(false);
     setFinalTime(time);
+    setShowPopup(true); // Show the popup
+  };
+
+  const handlePopUpClose = () => {
+    handleNewGame();
   };
 
   if (!puzzleData) return <LoadingGrid />;
 
   return (
     <div className="flex flex-col items-center p-4">
+      <p>{showPopup? "TRUE": "false"}</p>
       <div className="mb-4">
         {hasStarted ? (
           <>
@@ -120,7 +130,14 @@ const Home: React.FC<{}> = () => {
         collapsed={instructionsCollapsed}
         onToggle={handleToggleInstructions}
       />
-      {finalTime !== null && <div>Final Time: {finalTime} seconds</div>}
+      {showPopup && finalTime !== null && (
+        <>
+          <PopupMessage
+            message={`Final Time: ${finalTime} seconds`}
+            onClose={handlePopUpClose}
+            />          
+        </>
+      )}
     </div>
   );
 };
