@@ -1,5 +1,5 @@
 import { faFacebook, faInstagram, faLinkedin } from '@fortawesome/free-brands-svg-icons';
-import { faHome } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faSignOut } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState, useEffect } from 'react';
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
@@ -35,6 +35,7 @@ const Navbar = () => {
     { id: 2, text: 'Facebook', icon: faFacebook },
     { id: 3, text: 'Instagram', icon: faInstagram },
     { id: 4, text: 'LinkedIn', icon: faLinkedin },
+    { id: 5, text: 'Logout', icon: faSignOut}
   ];
 
   return (

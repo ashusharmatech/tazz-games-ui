@@ -1,9 +1,70 @@
 {
-  "files": [],
-  "references": [
-    {
-      "path": "./tsconfig.app.json"
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": false,
+    "module": "ESNext",
+    "skipLibCheck": true,
+    /* Bundler mode */
+    "moduleResolution": "node",
+    "allowImportingTsExtensions": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true,
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@store/*": [
+        "./src/store/*"
+      ],
+      "@components/*": [
+        "./src/components/*"
+      ],
+      "@assets/*": [
+        "./src/assets/*"
+      ],
+      "@routes/*": [
+        "./src/routes/*"
+      ],
+      "@styles/*": [
+        "./src/styles/*"
+      ],
+      "@layouts/*": [
+        "./src/layouts/*"
+      ],
+      "@interfaces/*": [
+        "./src/interfaces/*"
+      ],
+      "@data/*": [
+        "./src/data/*"
+      ],
+      "@api/*": [
+        "./src/api/*"
+      ],
+      "@functions/*": [
+        "./src/functions/*"
+      ],
+      "@config/*": [
+        "./src/config/*"
+      ]
     },
+  },
+  "include": [
+    "src"
+  ],
+  "references": [
     {
       "path": "./tsconfig.node.json"
     }
